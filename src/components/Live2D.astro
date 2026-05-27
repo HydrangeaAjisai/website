@@ -1,0 +1,86 @@
+<div class="live2d-wrapper">
+	<canvas id="live2d-canvas"></canvas>
+</div>
+
+<script is:inline src="/live2dcubismcore.min.js"></script>
+
+<script>
+	import { Application , Ticker } from 'pixi.js';
+	import { Live2DModel } from 'pixi-live2d-display/cubism4';
+	Live2DModel.registerTicker(Ticker);
+
+	const canvas = document.getElementById('live2d-canvas');
+	const wrapper = document.querySelector('.live2d-wrapper');
+	if (!canvas) throw new Error('Live2D canvas not found');
+
+	const app = new Application({
+		view: canvas,
+		antialias: true,
+		resolution: window.devicePixelRatio,
+		autoDensity: true,
+		autoStart: true,
+		backgroundAlpha: 0,
+		resizeTo: wrapper,
+	});
+
+	const modelPath = '/live2d/kaguya/kaguya.model3.json';
+
+	Live2DModel.from(modelPath)
+		.then((model) => {
+			app.stage.addChild(model);
+
+			// 自动缩放以适应 canvas
+			const scaleX = app.screen.width / model.width;
+			const scaleY = app.screen.height / model.height;
+			const scale = Math.min(scaleX, scaleY) * 0.85;
+			model.scale.set(scale);
+
+			// 居中底部对齐
+			model.anchor.set(0.5, 1);
+			model.x = app.screen.width / 2;
+			model.y = app.screen.height;
+
+			// 启动时播放一次 greet
+			model.motion('Greet');
+
+			// 自动播放 idle（延迟后开始循环）
+			setTimeout(() => {
+				startIdle(model);
+			}, 2000);
+			model.interactive = true;
+        	model.on('pointertap', (event) => {
+            	model.motion('Greet');
+        	});
+			// 点击交互
+			/*model.on('hit', (hitAreas) => {
+				console.log('点击到的区域是：', hitAreas);
+				if (hitAreas.includes('Body')) {
+					model.motion('yachiyo_greet');
+				}
+			});*/
+		})
+		.catch((err) => {
+			console.error('Live2D 模型加载失败:', err);
+		});
+
+	function startIdle(model) {
+		// 每隔 3-8 秒随机播放 idle
+		const nextDelay = 3000 + Math.random() * 5000;
+		setTimeout(() => {
+			model.motion('Idle');
+			startIdle(model);
+		}, nextDelay);
+	}
+</script>
+
+<style>
+	.live2d-wrapper {
+		position: fixed;
+		bottom: 0;
+		right: 0;
+		width: clamp(180px, 25vw, 480px);
+		height: auto;
+		z-index: 100;
+		pointer-events: auto;
+	}
+</style>

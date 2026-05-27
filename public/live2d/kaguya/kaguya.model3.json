@@ -1,0 +1,68 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "kaguya.moc3",
+		"Textures": [
+			"kaguya.8192/texture_00.png",
+			"kaguya.8192/texture_01.png"
+		],
+		"Physics": "kaguya.physics3.json",
+		"DisplayInfo": "kaguya.cdi3.json",
+		"Expressions": [
+			{
+				"Name": "tear_drop",
+				"File": "kaguyaexp1.exp3.json"
+			},
+			{
+				"Name": "narrow_eyes",
+				"File": "kaguyaexp2.exp3.json"
+			},
+			{
+				"Name": "tears",
+				"File": "kaguyaexp3.exp3.json"
+			},
+			{
+				"Name": "smile",
+				"File": "kaguyaexp4.exp3.json"
+			}
+		],
+		"Motions": {
+			"Idle": [
+				{
+					"File": "motions/yachiyo_idle.motion3.json",
+					"FadeInTime": 0.5,
+					"FadeOutTime": 0.5
+				}
+			],
+			"Greet": [
+				{
+					"File": "motions/yachiyo_greet.motion3.json",
+					"FadeInTime": 0.4,
+					"FadeOutTime": 0.4
+				}
+			],
+			"ReactError": [
+				{
+					"File": "motions/yachiyo_react_error.motion3.json",
+					"FadeInTime": 0.3,
+					"FadeOutTime": 0.3
+				}
+			]
+		}
+	},
+	"Groups": [
+		{
+			"Target": "Parameter",
+			"Name": "EyeBlink",
+			"Ids": [
+				"ParamEyeLOpen",
+				"ParamEyeROpen"
+			]
+		},
+		{
+			"Target": "Parameter",
+			"Name": "LipSync",
+			"Ids": []
+		}
+	]
+}

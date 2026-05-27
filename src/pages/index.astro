@@ -1,13 +1,97 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 ---
 
 <Layout>
-	<p>Welcome to Astro!</p>
-	<Welcome />
-	<p>Welcome to Astro!</p>
+	<header>
+		<h1>欢迎来到我的网站</h1>
+		<p>我是 Ajisai，这里是我记录和分享的地方。</p>
+	</header>
+
+	<main>
+		<section>
+			<h2>关于我</h2>
+			<p>这里可以写一段简短的自我介绍，比如你正在学习什么、对什么感兴趣。</p>
+		</section>
+
+		<section>
+			<h2>我的内容</h2>
+			<ul class="links">
+				<li><a href="/note">📚 课堂笔记</a></li>
+				<li><a href="/blog">📝 博客</a></li>
+				<li><a href="/artworks">🖼️ 照片</a></li>
+			</ul>
+		</section>
+	</main>
+
+	<footer>
+		<p>&copy; 2026 Ajisai</p>
+	</footer>
 </Layout>
+
+<style>
+	header {
+		margin-top: 4rem;
+		margin-bottom: 3rem;
+	}
+
+	h1 {
+		font-size: 2.5rem;
+		margin: 0 0 0.5rem;
+		color: #222;
+	}
+
+	header p {
+		font-size: 1.2rem;
+		color: #666;
+		margin: 0;
+	}
+
+	section {
+		margin-bottom: 2.5rem;
+	}
+
+	h2 {
+		font-size: 1.5rem;
+		margin: 0 0 0.75rem;
+		color: #444;
+		border-bottom: 2px solid #ddd;
+		padding-bottom: 0.5rem;
+	}
+
+	.links {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
+
+	.links li {
+		margin-bottom: 0.75rem;
+	}
+
+	.links a {
+		color: #333;
+		text-decoration: none;
+		font-size: 1.1rem;
+		padding: 0.5rem 0;
+		display: inline-block;
+		transition: color 0.2s;
+	}
+
+	.links a:hover {
+		color: #0066cc;
+	}
+
+	p {
+		margin: 0 0 1rem;
+	}
+
+	footer {
+		margin-top: 4rem;
+		padding-top: 2rem;
+		border-top: 1px solid #ddd;
+		text-align: center;
+		color: #888;
+		font-size: 0.9rem;
+	}
+</style>
