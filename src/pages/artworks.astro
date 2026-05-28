@@ -39,12 +39,12 @@ import Layout from '../layouts/Layout.astro';
 	h1 {
 		font-size: 2.5rem;
 		margin: 0 0 0.5rem;
-		color: #222;
+		color: var(--text-heading);
 	}
 
 	header p {
 		font-size: 1.2rem;
-		color: #666;
+		color: var(--text-secondary);
 		margin: 0;
 	}
 
@@ -56,26 +56,26 @@ import Layout from '../layouts/Layout.astro';
 
 	.placeholder {
 		aspect-ratio: 1;
-		background: #e0e0e0;
+		background: var(--bg-card);
 		border-radius: 8px;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		color: #888;
+		color: var(--text-muted);
 	}
 
 	footer {
 		margin-top: 4rem;
 		padding-top: 2rem;
-		border-top: 1px solid #ddd;
+		border-top: 1px solid var(--border-color);
 	}
 
 	footer a {
-		color: #555;
+		color: var(--text-nav);
 		text-decoration: none;
 	}
 
 	footer a:hover {
-		text-decoration: underline;
+		color: var(--link-hover);
 	}
 </style>

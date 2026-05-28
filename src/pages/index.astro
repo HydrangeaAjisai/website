@@ -38,12 +38,12 @@ import Layout from '../layouts/Layout.astro';
 	h1 {
 		font-size: 2.5rem;
 		margin: 0 0 0.5rem;
-		color: #222;
+		color: var(--text-heading);
 	}
 
 	header p {
 		font-size: 1.2rem;
-		color: #666;
+		color: var(--text-secondary);
 		margin: 0;
 	}
 
@@ -54,8 +54,8 @@ import Layout from '../layouts/Layout.astro';
 	h2 {
 		font-size: 1.5rem;
 		margin: 0 0 0.75rem;
-		color: #444;
-		border-bottom: 2px solid #ddd;
+		color: var(--text-primary);
+		border-bottom: 2px solid var(--border-color);
 		padding-bottom: 0.5rem;
 	}
 
@@ -70,7 +70,7 @@ import Layout from '../layouts/Layout.astro';
 	}
 
 	.links a {
-		color: #333;
+		color: var(--text-primary);
 		text-decoration: none;
 		font-size: 1.1rem;
 		padding: 0.5rem 0;
@@ -79,7 +79,7 @@ import Layout from '../layouts/Layout.astro';
 	}
 
 	.links a:hover {
-		color: #0066cc;
+		color: var(--link-hover);
 	}
 
 	p {
@@ -89,9 +89,9 @@ import Layout from '../layouts/Layout.astro';
 	footer {
 		margin-top: 4rem;
 		padding-top: 2rem;
-		border-top: 1px solid #ddd;
+		border-top: 1px solid var(--border-color);
 		text-align: center;
-		color: #888;
+		color: var(--text-muted);
 		font-size: 0.9rem;
 	}
 </style>

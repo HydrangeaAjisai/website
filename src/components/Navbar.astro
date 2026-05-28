@@ -8,8 +8,37 @@ const currentPath = Astro.url.pathname;
 		<li><a href="/note" class={currentPath === '/note' ? 'active' : ''}>笔记</a></li>
 		<li><a href="/blog" class={currentPath === '/blog' ? 'active' : ''}>博客</a></li>
 		<li><a href="/artworks" class={currentPath === '/artworks' ? 'active' : ''}>照片</a></li>
+		<li><button id="theme-toggle" aria-label="切换主题">☀️</button></li>
 	</ul>
 </nav>
+
+<script>
+	const toggle = document.getElementById('theme-toggle')!;
+	const html = document.documentElement;
+
+	function updateIcon() {
+		const isLight = html.getAttribute('data-theme') === 'light';
+		toggle.textContent = isLight ? '🌙' : '☀️';
+	}
+
+	const saved = localStorage.getItem('theme');
+	if (saved === 'light') {
+		html.setAttribute('data-theme', 'light');
+	}
+	updateIcon();
+
+	toggle.addEventListener('click', () => {
+		const isLight = html.getAttribute('data-theme') === 'light';
+		if (isLight) {
+			html.removeAttribute('data-theme');
+			localStorage.removeItem('theme');
+		} else {
+			html.setAttribute('data-theme', 'light');
+			localStorage.setItem('theme', 'light');
+		}
+		updateIcon();
+	});
+</script>
 
 <style>
 	nav {
@@ -17,19 +46,19 @@ const currentPath = Astro.url.pathname;
 		align-items: center;
 		justify-content: space-between;
 		padding: 1rem 0;
-		border-bottom: 1px solid #ddd;
+		border-bottom: 1px solid var(--border-color);
 		margin-bottom: 2rem;
 	}
 
 	.brand {
 		font-size: 1.25rem;
 		font-weight: bold;
-		color: #222;
+		color: var(--text-heading);
 		text-decoration: none;
 	}
 
 	.brand:hover {
-		color: #0066cc;
+		color: var(--link-hover);
 	}
 
 	ul {
@@ -41,18 +70,27 @@ const currentPath = Astro.url.pathname;
 	}
 
 	nav a {
-		color: #555;
+		color: var(--text-nav);
 		text-decoration: none;
 		font-size: 0.95rem;
 		transition: color 0.2s;
 	}
 
 	nav a:hover {
-		color: #0066cc;
+		color: var(--link-hover);
 	}
 
 	.active {
-		color: #0066cc !important;
+		color: var(--link-hover) !important;
 		font-weight: 500;
+	}
+
+	#theme-toggle {
+		background: none;
+		border: none;
+		cursor: pointer;
+		font-size: 1.1rem;
+		padding: 0;
+		line-height: 1;
 	}
 </style>
