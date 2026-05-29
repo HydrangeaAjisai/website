@@ -12,6 +12,7 @@ import Live2D from '../components/Live2D.astro';
 		<link rel="icon" href="/favicon.ico" />
 		<meta name="generator" content={Astro.generator} />
 		<title> Ajisai 的网站 </title>
+		<slot name="head" />
 	</head>
 	<body>
 		<div class="wrapper">
@@ -68,4 +69,25 @@ import Live2D from '../components/Live2D.astro';
 		box-sizing: border-box;
 		margin: 0 auto;
 	}
+
+	.katex {
+		color: var(--text-primary);
+	}
+
+	.katex-display {
+		margin: 1rem 0;
+		overflow-x: auto;
+	}
+  	blockquote {
+    	background-color: #04040433;
+    	padding: 8px 12px;
+    	border-radius: 4px;
+    	border-left: 3px solid #666;
+    	margin: 1em 0;
+    	font-size: 0.95em;
+  	}
+
+  	blockquote p {
+    	margin: 0;
+  	}
 </style>

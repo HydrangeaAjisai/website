@@ -12,8 +12,17 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^6.3.8",
+    "@astrojs/mdx": "^6.0.1",
+    "astro": "^6.4.2",
+    "gray-matter": "^4.0.3",
+    "katex": "^0.17.0",
     "pixi-live2d-display": "^0.4.0",
-    "pixi.js": "^6.5.10"
+    "pixi.js": "^6.5.10",
+    "rehype-katex": "^7.0.1",
+    "rehype-stringify": "^10.0.1",
+    "remark-math": "^6.0.0",
+    "remark-parse": "^11.0.0",
+    "remark-rehype": "^11.1.2",
+    "unified": "^11.0.5"
   }
 }

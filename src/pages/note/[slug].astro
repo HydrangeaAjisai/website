@@ -1,0 +1,147 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+export async function getStaticPaths() {
+  const notes = await getCollection('notes');
+  return notes.map((note) => ({
+    params: { slug: note.id },
+    props: { note },
+  }));
+}
+
+const { note } = Astro.props;
+const { Content } = await render(note);
+---
+
+<Layout>
+  <link
+    rel="stylesheet"
+    href="/katex.min.css"
+    slot="head"
+  />
+  <article>
+    <header>
+      <h1>{note.data.title}</h1>
+      <p class="meta">
+        {note.data.date.toLocaleDateString('zh-CN')}
+        {note.data.category && ` · ${note.data.category}`}
+      </p>
+    </header>
+    <div class="content">
+      <Content />
+    </div>
+  </article>
+  <footer>
+    <p><a href="/note">← 返回笔记列表</a></p>
+  </footer>
+</Layout>
+
+<style>
+  article {
+    margin-top: 2rem;
+  }
+
+  h1 {
+    font-size: 2rem;
+    margin: 0 0 0.25rem;
+    color: var(--text-heading);
+  }
+
+  .meta {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin: 0 0 2rem;
+  }
+
+  .content :global(h2) {
+    font-size: 1.5rem;
+    margin: 2rem 0 0.75rem;
+    color: var(--text-heading);
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 0.5rem;
+  }
+
+  .content :global(h3) {
+    font-size: 1.25rem;
+    margin: 1.5rem 0 0.5rem;
+    color: var(--text-primary);
+  }
+
+  .content :global(p) {
+    margin: 0 0 1rem;
+    line-height: 1.8;
+  }
+
+  .content :global(ul),
+  .content :global(ol) {
+    margin: 0 0 1rem;
+    padding-left: 1.5rem;
+  }
+
+  .content :global(li) {
+    margin-bottom: 0.5rem;
+  }
+
+  .content :global(blockquote) {
+    margin: 0 0 1rem;
+    padding-left: 1rem;
+    border-left: 4px solid var(--border-color);
+    color: var(--text-secondary);
+  }
+
+  .content :global(pre) {
+    background: var(--bg-card);
+    padding: 1rem;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin: 0 0 1rem;
+  }
+
+  .content :global(code) {
+    font-family: 'Fira Code', 'SF Mono', Monaco, monospace;
+    font-size: 0.9em;
+  }
+
+  .content :global(p code) {
+    background: var(--bg-card);
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+  }
+
+  .content :global(.katex) {
+    color: var(--text-primary);
+  }
+
+  .content :global(table) {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 0 1rem;
+  }
+
+  .content :global(th),
+  .content :global(td) {
+    border: 1px solid var(--border-color);
+    padding: 0.5rem;
+    text-align: left;
+  }
+
+  .content :global(th) {
+    background: var(--bg-card);
+  }
+
+  footer {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border-color);
+  }
+
+  footer a {
+    color: var(--text-nav);
+    text-decoration: none;
+  }
+
+  footer a:hover {
+    color: var(--link-hover);
+  }
+</style>
