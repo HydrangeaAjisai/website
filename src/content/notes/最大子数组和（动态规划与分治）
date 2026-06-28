@@ -1,0 +1,220 @@
+---
+title: 最大子数组和（动态规划与分治）
+date: 2026-06-28
+category: 算法与数据结构
+---
+
+# 问题简述
+
+## 1 问题背景
+在金融交易市场中，投资者常常需要分析**股票价格的波动**以寻找最佳的买入和卖出时机。假设已知某支股票连续几日的每日价格变化量（相对于前一天的涨跌幅），投资者希望找到一段**连续的时间区间**，使得这段时间内价格变化的总和达到最大，从而获得最高收益。
+
+## 2 问题抽象
+给定一个包含 $n$ 个整数的数组，要求在其中找到一个具有**最大和的连续子数组**。
+*   **空间设定**：输入为一个一维线性数组。
+*   **初始状态**：数组中的每个元素代表每日的价格变化值（正数表示上涨，负数表示下跌）。
+*   **求解目标**：找到一个子数组 `nums[i..j]`，使得 `sum(nums[i..j])` 的值最大，并确定对应的起始索引 $i$ 和结束索引 $j$。
+
+## 3 算法思维逻辑
+解决最大子数组和问题的核心在于如何**高效处理搜索空间**：
+*   **规模递减**：通过分治法将大数组划分为左右两个子数组，递归求解规模更小的子问题。
+*   **状态转移**：利用动态规划思想，通过前一个位置的最优解推导出当前位置的最优解，避免冗余计算。
+*   **终止准则**：在分治递归中，当子数组只剩一个元素时停止；在动态规划中，遍历完整个数组即结束。
+
+## 4 数学表达
+为了通过编程实现快速求解，建立如下递推关系。
+*   **动态规划状态转移方程**：假设 $max\_ending\_here[i]$ 表示以第 $i$ 个元素结尾的最大子数组和：
+    *   $$max\_ending\_here[i] = \max(nums[i], max\_ending\_here[i-1] + nums[i])$$
+*   **分治法合并规则**：最大和可能出现在左半部、右半部或**跨越中间点**：
+    *   $$cross\_max = \max\_left\_suffix + \max\_right\_prefix$$
+
+---
+
+# 解决思路
+
+## 1 暴力与优化方案
+这类方案侧重于通过枚举子数组的边界来寻找结果。
+### 1.1 基础暴法
+*   **实现原理**：通过**嵌套两层循环**枚举所有可能的起点 $i$ 和终点 $j$。
+*   **代价分析**：时间复杂度为 $O(n^2)$，效率极低。
+### 1.2 前缀和优化
+*   **实现原理**：预先计算**前缀和数组** `prefix_sum`。
+*   **优势**：可以将任意子数组之和的计算简化为 `prefix_sum[j+1] - prefix_sum[i]`，虽然仍需 $O(n^2)$ 枚举，但单次计算更快。
+
+## 2 动态规划方案（Kadane算法）
+
+### 2.1 动态规划（Kadane算法）的状态转移推导
+为了实现 $O(n)$ 的线性求解，我们需要通过子问题的最优解来构建全局最优解。
+
+*   **状态定义**：设 $f(i)$（或代码中的 `max_ending_here`）表示**以第 $i$ 个元素结尾**的所有连续子数组中的最大和。
+*   **逻辑拆解**：对于数组中的任意位置 $i$，以它结尾的连续子数组必然包含 $nums[i]$。此时存在两种可能的情况：
+    1.  **子数组只包含自己**：即 $nums[i]$ 独立成为一个子数组。这种情况通常发生在之前的子数组和为负数，只会拉低当前总和时。
+    2.  **子数组包含之前的序列**：即在以 $i-1$ 结尾的最大子数组之后接上 $nums[i]$。其和为 $f(i-1) + nums[i]$。
+*   **递推公式推导**：
+    为了求得 $f(i)$ 的最大值，我们只需在上述两种情况中取较大者：
+    $$f(i) = \max(nums[i], f(i-1) + nums[i])$$
+*   **全局最优解**：由于最大子数组可能在数组的任何位置结尾，因此最终答案是所有 $f(i)$ 中的最大值：
+    $$\text{Max\_Sum} = \max_{0 \le i < n} \{f(i)\}$$
+
+## 3 分治方案
+分治法通过将问题**递归分解**为互不重叠的子问题来解决。
+*   **实现步骤**：
+    1.  **分解**：将数组从中间点一分为二。
+    2.  **解决**：递归计算左、右半部的最大子数组和。
+    3.  **合并**：计算必须跨越中点的最大和，并取三者中的最大值。
+
+### 3.1 分治法（跨越中点）的合并逻辑推导
+分治法的难点在于如何处理“跨越中点”的子数组，因为它们不完全属于左半部或右半部。
+
+*   **场景划分**：给定区间 $[left, right]$ 和中点 $mid = (left + right) // 2$ 最大子数组的和 $T(left, right)$ 必然处于以下三者之一：
+    1.  **完全在左半部**：$T(left, mid)$。
+    2.  **完全在右半部**：$T(mid+1, right)$。
+    3.  **跨越中点**：即子数组包含 $nums[mid]$ 和 $nums[mid+1]$。
+*   **跨中点子数组的构造**：
+    一个跨越中点的子数组 $nums[i..j]$ 可以拆分为两部分：
+    *   **左半部分**：$nums[i..mid]$（左半部的某个**后缀**）。
+    *   **右半部分**：$nums[mid+1..j]$（右半部的某个**前缀**）。
+*   **最优性推导**：
+    为了使跨中点的总和 $cross\_max$ 最大，必须分别使左半部分的后缀和右半部分的前缀达到最大。
+    1.  **左侧最大后缀**：从 $mid$ 开始向左遍历至 $left$，记录出现过的最大累加和 `left_cross_max`。
+    2.  **右侧最大前缀**：从 $mid+1$ 开始向右遍历至 $right$，记录出现过的最大累加和 `right_cross_max`。
+*   **最终合并公式**：
+    跨越中点的最大和即为两者之和：
+    $$cross\_max = \text{left\_cross\_max} + \text{right\_cross\_max}$$
+    最后通过比较 $max(left\_max, right\_max, cross\_max)$ 得到当前区间的最终解。
+---
+
+# 代码实现
+## 1 暴力法
+### 1.1 直接暴力
+```python
+def max_subarray_bruteforce(nums: List[int]) -> int:
+    """
+    直接暴力法：O(n^2)
+    固定左边界，扩展右边界，累加计算所有子数组和。
+    """
+    n = len(nums)
+    max_sum = float('-inf')  # 初始化负无穷，处理全负数情况
+    
+    for i in range(n):
+        current_sum = 0
+        for j in range(i, n):
+            current_sum += nums[j]          # 逐步扩展子数组 [i..j]
+            if current_sum > max_sum:
+                max_sum = current_sum
+                
+    return max_sum
+```
+### 1.2 前缀和
+```python
+def max_subarray_prefix(nums: List[int]) -> int:
+    """
+    前缀和暴力法：O(n^2)
+    利用 prefix[j+1] - prefix[i] 快速获取任意子数组和。
+    """
+    n = len(nums)
+    # 构建前缀和数组，长度为 n+1，prefix[0] = 0
+    prefix = [0] * (n + 1)
+    for i in range(n):
+        prefix[i + 1] = prefix[i] + nums[i]
+    
+    max_sum = float('-inf')
+    
+    for i in range(n):          # 子数组起点
+        for j in range(i, n):   # 子数组终点
+            # 子数组 nums[i..j] 的和
+            current_sum = prefix[j + 1] - prefix[i]
+            if current_sum > max_sum:
+                max_sum = current_sum
+                
+    return max_sum
+```
+## 2 动态规划法
+该算法通过一次遍历即可完成求解。
+```python
+def max_subarray_kadane(nums: List[int]) -> int:
+    """
+    Kadane 算法（DP）：O(n)
+    max_ending_here: 以当前元素结尾的最大子数组和
+    max_so_far:     全局最大子数组和
+    """
+
+    max_so_far = nums[0]
+    max_ending_here = nums[0]
+    
+    for i in range(1, len(nums)):
+        # 核心逻辑：要么自立门户，要么加入前面的队伍
+        max_ending_here = max(nums[i], max_ending_here + nums[i])
+        # 更新全局最优
+        max_so_far = max(max_so_far, max_ending_here)
+        
+    return max_so_far
+```
+### 2.1 核心逻辑
+利用 `max_so_far` 记录全局最优解，`max_ending_here` 记录当前位置的局部状态。
+
+## 3 分治实现：基于递归的合并策略
+```python
+def max_subarray_divide_conquer(nums: List[int]) -> int:
+    """
+    分治法：O(n log n)
+    递归处理左右区间，并合并跨越中点的最大和。
+    """
+    
+    def max_crossing_sum(left: int, mid: int, right: int) -> int:
+        """
+        计算跨越中点 mid 的最大子数组和。
+        必须包含 nums[mid] 和 nums[mid+1]。
+        """
+        # 从中点向左扫描（包含 mid）
+        left_sum = float('-inf')
+        current = 0
+        for i in range(mid, left - 1, -1):
+            current += nums[i]
+            if current > left_sum:
+                left_sum = current
+        
+        # 从中点向右扫描（包含 mid+1）
+        right_sum = float('-inf')
+        current = 0
+        for i in range(mid + 1, right + 1):
+            current += nums[i]
+            if current > right_sum:
+                right_sum = current
+        
+        # 跨中点最大和 = 左半部分最大（必须包含 mid）+ 右半部分最大（必须包含 mid+1）
+        return left_sum + right_sum
+    
+    def divide_and_conquer(left: int, right: int) -> int:
+        """递归处理区间 [left, right]"""
+        # 递归基：只有一个元素
+        if left == right:
+            return nums[left]
+        
+        # 分
+        mid = (left + right) // 2
+        
+        # 治（递归求解左右两半）
+        left_max = divide_and_conquer(left, mid)
+        right_max = divide_and_conquer(mid + 1, right)
+        
+        # 合（计算跨中点情况）
+        cross_max = max_crossing_sum(left, mid, right)
+        
+        # 返回三者最大值
+        return max(left_max, right_max, cross_max)
+```
+### 3.1 递归函数定义
+定义 `divide_and_conquer(left, right)` 处理指定区间的子问题。
+
+---
+
+# 分析与总结
+
+##  算法对比
+| 维度 | 暴力 | 分治法 | 动态规划 | 备注 |
+| :--- | :--- | :--- | :--- | :--- |
+| **时间效率** | $O(n^2)$ | $O(n \log n)$ | $O(n)$ | DP 在线性时间内完成。 |
+| **空间效率** | $O(1)$ | $O(\log n)$ | $O(1)$ | 分治法涉及递归调用的**栈内存**。 |
+| **编程难度** | 低 | 中 | 中 | 分治法需处理跨越中点的特殊逻辑。 |
+| **子问题性质** | N/A | 独立 | 重叠 | DP通过存储重叠子问题结果避免冗余。 |
