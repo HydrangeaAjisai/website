@@ -1,6 +1,7 @@
 ---
 import Navbar from '../components/Navbar.astro';
 import Live2D from '../components/Live2D.astro';
+const { title = '欲求生富贵，需下死工夫', description } = Astro.props;
 ---
 
 <!doctype html>
@@ -8,10 +9,10 @@ import Live2D from '../components/Live2D.astro';
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
+		<link rel="icon" type="image/jpeg" href="/favicon-ajisai.jpg" />
 		<meta name="generator" content={Astro.generator} />
-		<title> 欲求生富贵，需下死工夫 </title>
+		<title>{title}</title>
+		{description && <meta name="description" content={description} />}
 		<slot name="head" />
 	</head>
 	<body>
