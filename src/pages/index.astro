@@ -14,7 +14,7 @@ const notes = (await getCollection('notes')).sort((a, b) => b.data.date.getTime(
       <p class="description">这里放着我的学习笔记，也留一点空间，<br class="desktop-break" />给照片和偶尔想写下来的事。</p>
       <a class="button" href="/artworks">看看我拍的照片 <span aria-hidden="true">↗</span></a>
       </div>
-      <div class="portrait"><img src="/favicon-ajisai.jpg" width="400" height="400" alt="Ajisai 的头像" /><span>Ajisai</span></div>
+      <div class="portrait"><img src="/favicon-ajisai.jpg" width="400" height="400" alt="Ajisai 的头像" /></div>
     </header>
     <section aria-labelledby="notes-heading">
       <div class="section-heading">
@@ -37,7 +37,7 @@ const notes = (await getCollection('notes')).sort((a, b) => b.data.date.getTime(
 </Layout>
 
 <style>
-  .hero { display: grid; grid-template-columns: minmax(0, 1fr) 12rem; align-items: center; gap: 2rem; padding: 4rem 0 4.5rem; }
+  .hero { display: grid; grid-template-columns: minmax(0, 1fr) 15rem; align-items: center; gap: 2rem; padding: 4rem 0 4.5rem; }
   .hero-copy { min-width: 0; }
   .eyebrow { font-size: .68rem; font-weight: 600; letter-spacing: .16em; color: var(--text-secondary); margin: 0 0 1.2rem; }
   h1 { font-size: clamp(2.2rem, 5vw, 2.8rem); letter-spacing: -.045em; line-height: 1.25; margin: 0 0 1.4rem; color: var(--text-heading); }
@@ -46,9 +46,8 @@ const notes = (await getCollection('notes')).sort((a, b) => b.data.date.getTime(
   .description { color: var(--text-secondary); font-size: .95rem; line-height: 1.9; margin: 0 0 2rem; }
   .button { display: inline-flex; align-items: center; gap: 2rem; background: var(--text-heading); color: var(--bg-page); border-radius: 999px; padding: .8rem 1.3rem; font-size: .9rem; font-weight: 600; text-decoration: none; }
   .button:hover { background: var(--link-hover); }
-  .portrait { padding: 1rem 1rem 1.25rem; border: 1px solid var(--border-color); border-radius: 7rem 7rem .75rem .75rem; background: var(--bg-card); transform: rotate(6deg); box-shadow: 0 12px 30px #0002; }
+  .portrait { width: 100%; }
   .portrait img { display: block; width: 100%; height: auto; border-radius: 50%; }
-  .portrait span { display: block; text-align: center; margin-top: 1.2rem; letter-spacing: .15em; font-size: .85rem; color: var(--text-secondary); }
   .section-heading { display: flex; justify-content: space-between; align-items: end; gap: 1rem; margin-bottom: 1.4rem; }
   .section-heading .eyebrow { margin-bottom: .4rem; }
   h2 { margin: 0; font-size: 1.4rem; color: var(--text-heading); }
@@ -67,5 +66,5 @@ const notes = (await getCollection('notes')).sort((a, b) => b.data.date.getTime(
   footer a { text-decoration: none; color: var(--text-heading); font-size: 1.1rem; font-weight: 700; }
   footer p { color: var(--text-secondary); font-size: .75rem; margin: 0; }
   a:focus-visible { outline: 2px solid var(--link-hover); outline-offset: 5px; }
-  @media (max-width: 600px) { .hero { padding: 2.5rem 0 3rem; grid-template-columns: 1fr; gap: 2rem; } .portrait { width: 8rem; justify-self: center; } .note { gap: 1rem; } .desktop-break { display: none; } }
+  @media (max-width: 600px) { .hero { padding: 2.5rem 0 3rem; grid-template-columns: 1fr; gap: 2rem; } .portrait { width: min(12rem, 100%); justify-self: center; } .note { gap: 1rem; } .desktop-break { display: none; } }
 </style>
