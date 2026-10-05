@@ -7,12 +7,14 @@ const notes = (await getCollection('notes')).sort((a, b) => b.data.date.getTime(
 <Layout title="Ajisai · 喜欢拍拍照" description="我是 Ajisai，喜欢拍拍照。这里放着我的学习笔记，也留一点空间给照片和偶尔想写下来的事。">
   <main>
     <header class="hero">
+      <div class="hero-copy">
       <p class="eyebrow">AJISAI / 个人空间</p>
       <h1>你好，我是 <span>Ajisai.</span></h1>
       <p class="intro">喜欢拍拍照。</p>
       <p class="description">这里放着我的学习笔记，也留一点空间，<br class="desktop-break" />给照片和偶尔想写下来的事。</p>
-      <a class="button" href="/note">翻翻我的笔记 <span aria-hidden="true">↗</span></a>
-      <div class="decoration" aria-hidden="true"><span></span><i></i></div>
+      <a class="button" href="/artworks">看看我拍的照片 <span aria-hidden="true">↗</span></a>
+      </div>
+      <div class="portrait"><img src="/favicon-ajisai.jpg" width="400" height="400" alt="Ajisai 的头像" /><span>Ajisai</span></div>
     </header>
     <section aria-labelledby="notes-heading">
       <div class="section-heading">
@@ -35,17 +37,18 @@ const notes = (await getCollection('notes')).sort((a, b) => b.data.date.getTime(
 </Layout>
 
 <style>
-  .hero { position: relative; isolation: isolate; padding: 4rem 0 4.5rem; overflow: hidden; }
+  .hero { display: grid; grid-template-columns: minmax(0, 1fr) 12rem; align-items: center; gap: 2rem; padding: 4rem 0 4.5rem; }
+  .hero-copy { min-width: 0; }
   .eyebrow { font-size: .68rem; font-weight: 600; letter-spacing: .16em; color: var(--text-secondary); margin: 0 0 1.2rem; }
-  h1 { font-size: clamp(2.2rem, 7vw, 3.65rem); letter-spacing: -.045em; line-height: 1.25; margin: 0 0 1.4rem; color: var(--text-heading); }
+  h1 { font-size: clamp(2.2rem, 5vw, 2.8rem); letter-spacing: -.045em; line-height: 1.25; margin: 0 0 1.4rem; color: var(--text-heading); }
   h1 span { white-space: nowrap; color: var(--link-hover); }
   .intro { font-size: 1.5rem; margin: 0 0 1rem; }
   .description { color: var(--text-secondary); font-size: .95rem; line-height: 1.9; margin: 0 0 2rem; }
   .button { display: inline-flex; align-items: center; gap: 2rem; background: var(--text-heading); color: var(--bg-page); border-radius: 999px; padding: .8rem 1.3rem; font-size: .9rem; font-weight: 600; text-decoration: none; }
   .button:hover { background: var(--link-hover); }
-  .decoration { position: absolute; z-index: -1; width: 14rem; height: 17rem; right: 1rem; top: 5rem; opacity: .35; pointer-events: none; transform: rotate(12deg); border: 1px solid var(--border-color); border-radius: 6rem 6rem .5rem .5rem; background: radial-gradient(ellipse at 60% 30%, #a099cf30, transparent 70%); }
-  .decoration span { position: absolute; width: 8rem; height: 8rem; border-radius: 50%; border: 1px solid var(--border-color); top: 3rem; left: 3rem; }
-  .decoration i { position: absolute; height: 1px; width: 12rem; background: var(--border-color); bottom: 3rem; left: 1rem; }
+  .portrait { padding: 1rem 1rem 1.25rem; border: 1px solid var(--border-color); border-radius: 7rem 7rem .75rem .75rem; background: var(--bg-card); transform: rotate(6deg); box-shadow: 0 12px 30px #0002; }
+  .portrait img { display: block; width: 100%; height: auto; border-radius: 50%; }
+  .portrait span { display: block; text-align: center; margin-top: 1.2rem; letter-spacing: .15em; font-size: .85rem; color: var(--text-secondary); }
   .section-heading { display: flex; justify-content: space-between; align-items: end; gap: 1rem; margin-bottom: 1.4rem; }
   .section-heading .eyebrow { margin-bottom: .4rem; }
   h2 { margin: 0; font-size: 1.4rem; color: var(--text-heading); }
@@ -64,5 +67,5 @@ const notes = (await getCollection('notes')).sort((a, b) => b.data.date.getTime(
   footer a { text-decoration: none; color: var(--text-heading); font-size: 1.1rem; font-weight: 700; }
   footer p { color: var(--text-secondary); font-size: .75rem; margin: 0; }
   a:focus-visible { outline: 2px solid var(--link-hover); outline-offset: 5px; }
-  @media (max-width: 600px) { .hero { padding: 2.5rem 0 3rem; } .decoration { right: -6rem; opacity: .18; } .note { gap: 1rem; } .desktop-break { display: none; } }
+  @media (max-width: 600px) { .hero { padding: 2.5rem 0 3rem; grid-template-columns: 1fr; gap: 2rem; } .portrait { width: 8rem; justify-self: center; } .note { gap: 1rem; } .desktop-break { display: none; } }
 </style>

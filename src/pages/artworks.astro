@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import photos from '../data/photos.json';
+const rows = Array.from({ length: Math.ceil(photos.length / 2) }, (_, index) => photos.slice(index * 2, index * 2 + 2));
 ---
 
 <Layout title="照片 · Ajisai" description="喜欢拍拍照。这里是 Ajisai 镜头里的一些片段。">
@@ -11,13 +12,17 @@ import photos from '../data/photos.json';
 
 	<main>
 		<section class="gallery" aria-label="摄影作品">
-			{photos.map((photo, index) => (
+			{rows.map((row, rowIndex) => (
+				<div class="photo-row" style={`grid-template-columns: ${row.map(photo => `${photo.width / photo.height}fr`).join(' ')}`}>
+				{row.map((photo, columnIndex) => (
 				<figure>
 					<a href={`/photos/${photo.file}`} target="_blank" rel="noopener" aria-label={`查看照片 ${photo.name} 大图 (新标签页)`}>
-						<img src={`/photos/thumbs/${photo.file}`} width={photo.width} height={photo.height} alt={`Ajisai 的摄影作品 ${photo.name}`} loading={index < 2 ? 'eager' : 'lazy'} decoding="async" />
+						<img src={`/photos/thumbs/${photo.file}`} width={photo.width} height={photo.height} alt={`Ajisai 的摄影作品 ${photo.name}`} loading={rowIndex === 0 ? 'eager' : 'lazy'} decoding="async" />
 					</a>
-					<figcaption><span>{String(index + 1).padStart(2, '0')}</span><span>点击查看大图 ↗</span></figcaption>
+					<figcaption><span>{String(rowIndex * 2 + columnIndex + 1).padStart(2, '0')}</span><span>查看大图 ↗</span></figcaption>
 				</figure>
+				))}
+				</div>
 			))}
 		</section>
 	</main>
@@ -47,16 +52,16 @@ import photos from '../data/photos.json';
 
 	.gallery {
 		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
 		gap: 2rem 1.25rem;
 		align-items: start;
 	}
+	.photo-row { display: grid; gap: 1.25rem; align-items: start; min-width: 0; }
 	figure { margin: 0; min-width: 0; }
 	figure a { display: block; border-radius: 6px; overflow: hidden; background: var(--bg-card); }
 	figure a:focus-visible { outline: 2px solid var(--link-hover); outline-offset: 4px; }
 	figure img { display: block; width: 100%; height: auto; }
 	figcaption { display: flex; justify-content: space-between; gap: 1rem; margin-top: .65rem; font-size: .75rem; color: var(--text-secondary); }
-	@media (max-width: 520px) { .gallery { grid-template-columns: 1fr; } }
+	@media (max-width: 520px) { .photo-row { grid-template-columns: 1fr !important; gap: 2rem; } }
 
 
 	footer {
