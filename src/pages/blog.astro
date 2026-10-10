@@ -2,41 +2,19 @@
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout>
-	<header>
-		<h1>博客</h1>
-		<p>我的想法、经验和学习记录。</p>
-	</header>
-
+<Layout
+	heading="博客"
+	subtitle="我的想法、经验和学习记录。"
+	backHref="/"
+>
 	<main>
 		<article>
 			<h2>占位</h2>
 		</article>
 	</main>
-
-	<footer>
-		<p><a href="/">← 返回首页</a></p>
-	</footer>
 </Layout>
 
 <style>
-	header {
-		margin-top: 4rem;
-		margin-bottom: 3rem;
-	}
-
-	h1 {
-		font-size: 2.5rem;
-		margin: 0 0 0.5rem;
-		color: var(--text-heading);
-	}
-
-	header p {
-		font-size: 1.2rem;
-		color: var(--text-secondary);
-		margin: 0;
-	}
-
 	article {
 		margin-bottom: 2.5rem;
 		padding-bottom: 2rem;
@@ -51,20 +29,5 @@ import Layout from '../layouts/Layout.astro';
 
 	p {
 		margin: 0;
-	}
-
-	footer {
-		margin-top: 4rem;
-		padding-top: 2rem;
-		border-top: 1px solid var(--border-color);
-	}
-
-	footer a {
-		color: var(--text-nav);
-		text-decoration: none;
-	}
-
-	footer a:hover {
-		color: var(--link-hover);
 	}
 </style>

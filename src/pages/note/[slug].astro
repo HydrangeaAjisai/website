@@ -14,7 +14,7 @@ const { note } = Astro.props;
 const { Content } = await render(note);
 ---
 
-<Layout>
+<Layout backHref="/note" backLabel="返回笔记列表">
   <link
     rel="stylesheet"
     href="/katex.min.css"
@@ -32,9 +32,6 @@ const { Content } = await render(note);
       <Content />
     </div>
   </article>
-  <footer>
-    <p><a href="/note">← 返回笔记列表</a></p>
-  </footer>
 </Layout>
 
 <style>
@@ -128,20 +125,5 @@ const { Content } = await render(note);
 
   .content :global(th) {
     background: var(--bg-card);
-  }
-
-  footer {
-    margin-top: 4rem;
-    padding-top: 2rem;
-    border-top: 1px solid var(--border-color);
-  }
-
-  footer a {
-    color: var(--text-nav);
-    text-decoration: none;
-  }
-
-  footer a:hover {
-    color: var(--link-hover);
   }
 </style>

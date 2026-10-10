@@ -13,31 +13,36 @@ const currentPath = Astro.url.pathname;
 </nav>
 
 <script>
-	const toggle = document.getElementById('theme-toggle')!;
-	const html = document.documentElement;
+	function applyTheme() {
+		const isLight = localStorage.getItem('theme') === 'light';
+		const html = document.documentElement;
+		if (isLight) html.setAttribute('data-theme', 'light');
+		else html.removeAttribute('data-theme');
 
-	function updateIcon() {
-		const isLight = html.getAttribute('data-theme') === 'light';
-		toggle.textContent = isLight ? '🌙' : '☀️';
+		const toggle = document.getElementById('theme-toggle');
+		if (toggle) toggle.textContent = isLight ? '🌙' : '☀️';
 	}
 
-	const saved = localStorage.getItem('theme');
-	if (saved === 'light') {
-		html.setAttribute('data-theme', 'light');
-	}
-	updateIcon();
+	function initializeThemeToggle() {
+		applyTheme();
+		const toggle = document.getElementById('theme-toggle');
+		if (!toggle) return;
 
-	toggle.addEventListener('click', () => {
-		const isLight = html.getAttribute('data-theme') === 'light';
-		if (isLight) {
-			html.removeAttribute('data-theme');
-			localStorage.removeItem('theme');
-		} else {
-			html.setAttribute('data-theme', 'light');
-			localStorage.setItem('theme', 'light');
-		}
-		updateIcon();
-	});
+		// 导航后按钮会被替换; 赋值 onclick 可避免重复绑定.
+		toggle.onclick = () => {
+			if (document.documentElement.getAttribute('data-theme') === 'light') {
+				localStorage.removeItem('theme');
+			} else {
+				localStorage.setItem('theme', 'light');
+			}
+			applyTheme();
+		};
+	}
+
+	// 在新页面绘制前恢复主题, 并为新按钮绑定事件.
+	document.addEventListener('astro:after-swap', applyTheme);
+	document.addEventListener('astro:page-load', initializeThemeToggle);
+	initializeThemeToggle();
 </script>
 
 <style>

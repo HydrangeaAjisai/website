@@ -1,7 +1,17 @@
 ---
 import Navbar from '../components/Navbar.astro';
 import Live2D from '../components/Live2D.astro';
-const { title = '欲求生富贵，需下死工夫', description } = Astro.props;
+import { ClientRouter } from 'astro:transitions';
+interface Props {
+	description?: string;
+	heading?: string;
+	subtitle?: string;
+	backHref?: string;
+	backLabel?: string;
+}
+
+const { description, heading, subtitle, backHref, backLabel = '返回首页' } = Astro.props;
+const siteTitle = '欲求生富贵，需下死工夫';
 ---
 
 <!doctype html>
@@ -11,14 +21,26 @@ const { title = '欲求生富贵，需下死工夫', description } = Astro.props
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/jpeg" href="/favicon-ajisai.jpg" />
 		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
+		<title>{siteTitle}</title>
 		{description && <meta name="description" content={description} />}
 		<slot name="head" />
+		<ClientRouter fallback="swap" />
 	</head>
 	<body>
 		<div class="wrapper">
 			<Navbar />
+			{heading && (
+				<header class="page-header">
+					<h1>{heading}</h1>
+					{subtitle && <p>{subtitle}</p>}
+				</header>
+			)}
 			<slot />
+			{backHref && (
+				<footer class="page-footer">
+					<p><a href={backHref}>← {backLabel}</a></p>
+				</footer>
+			)}
 			<Live2D />
 		</div>
 	</body>
@@ -69,6 +91,38 @@ const { title = '欲求生富贵，需下死工夫', description } = Astro.props
 		padding: 0 1.5rem;
 		box-sizing: border-box;
 		margin: 0 auto;
+	}
+
+	.page-header {
+		margin-top: 4rem;
+		margin-bottom: 3rem;
+	}
+
+	.page-header h1 {
+		font-size: 2.5rem;
+		margin: 0 0 0.5rem;
+		color: var(--text-heading);
+	}
+
+	.page-header p {
+		font-size: 1.2rem;
+		color: var(--text-secondary);
+		margin: 0;
+	}
+
+	.page-footer {
+		margin-top: 4rem;
+		padding-top: 2rem;
+		border-top: 1px solid var(--border-color);
+	}
+
+	.page-footer a {
+		color: var(--text-nav);
+		text-decoration: none;
+	}
+
+	.page-footer a:hover {
+		color: var(--link-hover);
 	}
 
 	.katex {

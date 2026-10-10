@@ -1,10 +1,12 @@
-<div class="live2d-wrapper">
+<!-- 保留同一个 Canvas 和模型实例, 站内导航时不重新加载. -->
+<div class="live2d-wrapper" transition:persist="live2d" transition:animate="none">
 	<canvas id="live2d-canvas"></canvas>
 </div>
 
 <script is:inline src="/live2dcubismcore.min.js"></script>
 
 <script>
+	// Astro 的模块脚本只执行一次, 与上方持久化的容器共用同一个生命周期.
 	import { Application , Ticker } from 'pixi.js';
 	import { Live2DModel } from 'pixi-live2d-display/cubism4';
 	Live2DModel.registerTicker(Ticker);

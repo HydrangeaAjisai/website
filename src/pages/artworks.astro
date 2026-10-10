@@ -4,12 +4,12 @@ import photos from '../data/photos.json';
 const rows = Array.from({ length: Math.ceil(photos.length / 2) }, (_, index) => photos.slice(index * 2, index * 2 + 2));
 ---
 
-<Layout title="照片 · Ajisai" description="喜欢拍拍照。这里是 Ajisai 镜头里的一些片段。">
-	<header>
-		<h1>照片</h1>
-		<p>喜欢拍拍照，留下眼前的一些片段。</p>
-	</header>
-
+<Layout
+	description="喜欢拍拍照。这里是 Ajisai 镜头里的一些片段。"
+	heading="照片"
+	subtitle="喜欢拍拍照，留下眼前的一些片段。"
+	backHref="/"
+>
 	<main>
 		<section class="gallery" aria-label="摄影作品">
 			{rows.map((row, rowIndex) => (
@@ -26,30 +26,9 @@ const rows = Array.from({ length: Math.ceil(photos.length / 2) }, (_, index) => 
 			))}
 		</section>
 	</main>
-
-	<footer>
-		<p><a href="/">← 返回首页</a></p>
-	</footer>
 </Layout>
 
 <style>
-	header {
-		margin-top: 4rem;
-		margin-bottom: 3rem;
-	}
-
-	h1 {
-		font-size: 2.5rem;
-		margin: 0 0 0.5rem;
-		color: var(--text-heading);
-	}
-
-	header p {
-		font-size: 1.2rem;
-		color: var(--text-secondary);
-		margin: 0;
-	}
-
 	.gallery {
 		display: grid;
 		gap: 2rem 1.25rem;
@@ -62,20 +41,4 @@ const rows = Array.from({ length: Math.ceil(photos.length / 2) }, (_, index) => 
 	figure img { display: block; width: 100%; height: auto; }
 	figcaption { display: flex; justify-content: space-between; gap: 1rem; margin-top: .65rem; font-size: .75rem; color: var(--text-secondary); }
 	@media (max-width: 520px) { .photo-row { grid-template-columns: 1fr !important; gap: 2rem; } }
-
-
-	footer {
-		margin-top: 4rem;
-		padding-top: 2rem;
-		border-top: 1px solid var(--border-color);
-	}
-
-	footer a {
-		color: var(--text-nav);
-		text-decoration: none;
-	}
-
-	footer a:hover {
-		color: var(--link-hover);
-	}
 </style>

@@ -4,7 +4,7 @@ import Layout from '../layouts/Layout.astro';
 const notes = (await getCollection('notes')).sort((a, b) => b.data.date.getTime() - a.data.date.getTime()).slice(0, 3);
 ---
 
-<Layout title="Ajisai · 喜欢拍拍照" description="我是 Ajisai，喜欢拍拍照。这里放着我拍的照片和偶尔想写下来的事，也收录一些学习笔记。">
+<Layout description="我是 Ajisai，喜欢拍拍照。这里放着我拍的照片和偶尔想写下来的事，也收录一些学习笔记。">
   <main>
     <header class="hero">
       <div class="hero-copy">
