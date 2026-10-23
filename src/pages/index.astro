@@ -4,12 +4,17 @@ import Layout from '../layouts/Layout.astro';
 const notes = (await getCollection('notes')).sort((a, b) => b.data.date.getTime() - a.data.date.getTime()).slice(0, 3);
 ---
 
-<Layout description="我是 Ajisai，喜欢拍拍照。这里放着我拍的照片和偶尔想写下来的事，也收录一些学习笔记。">
+<Layout description="Wu Ji Wei (Ajisai) 的个人主页。西安交通大学人工智能学院。这里放着我拍的照片和偶尔想写下来的事，也收录一些学习笔记。">
   <main>
     <header class="hero">
       <div class="hero-copy">
       <p class="eyebrow">AJISAI / 个人空间</p>
       <h1>你好，我是 <span>Ajisai.</span></h1>
+      <div class="identity">
+        <p class="full-name">Wu Ji Wei</p>
+        <p>西安交通大学 · 人工智能学院</p>
+        <a href="mailto:282922398@stu.xjtu.edu.cn">282922398@stu.xjtu.edu.cn</a>
+      </div>
       <p class="intro">喜欢拍拍照。</p>
       <p class="description">这里放着我拍的照片和偶尔想写下来的事，<br class="desktop-break" />也收录一些学习笔记。</p>
       <a class="button" href="/artworks">看看我拍的照片 <span aria-hidden="true">↗</span></a>
@@ -43,6 +48,10 @@ const notes = (await getCollection('notes')).sort((a, b) => b.data.date.getTime(
   h1 { font-size: clamp(2.2rem, 5vw, 2.8rem); letter-spacing: -.045em; line-height: 1.25; margin: 0 0 1.4rem; color: var(--text-heading); }
   h1 span { white-space: nowrap; color: var(--link-hover); }
   .intro { font-size: 1.5rem; margin: 0 0 1rem; }
+  .identity { margin: 0 0 1.8rem; font-size: .95rem; line-height: 1.8; color: var(--text-secondary); }
+  .identity p { margin: 0 0 .25rem; }
+  .identity .full-name { font-size: 1.2rem; font-weight: 600; color: var(--text-heading); }
+  .identity a { color: var(--link-hover); text-underline-offset: .2em; overflow-wrap: anywhere; }
   .description { color: var(--text-secondary); font-size: .95rem; line-height: 1.9; margin: 0 0 2rem; }
   .button { display: inline-flex; align-items: center; gap: 2rem; background: var(--text-heading); color: var(--bg-page); border-radius: 999px; padding: .8rem 1.3rem; font-size: .9rem; font-weight: 600; text-decoration: none; }
   .button:hover { background: var(--link-hover); }
